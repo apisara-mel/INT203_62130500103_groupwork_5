@@ -1,4 +1,4 @@
-const app = {
+const app = Vue.createApp({
     data() {
         return {
             tasks: [{
@@ -33,7 +33,6 @@ const app = {
 
     methods: {
         toggleDone(tag) {
-            //this.tasks[index].done = !this.tasks[index].done
             for (let index = 0; index <= this.tasks.length; index++) {
                 const element = this.tasks[index];
                 if (element.tag == tag) {
@@ -48,7 +47,6 @@ const app = {
         },
 
         like(tag) {
-            //this.tasks[tag].done = !this.tasks[tag].done
             for (let index = 0; index < this.tasks.length; index++) {
                 const element = this.tasks[index];
                 if (element.tag == tag) {
@@ -72,5 +70,4 @@ const app = {
 
         }
     }
-}
-Vue.createApp(app).mount('#app')
+})
