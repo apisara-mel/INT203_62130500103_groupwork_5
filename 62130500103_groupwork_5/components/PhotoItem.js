@@ -1,5 +1,7 @@
 app.component('task-list', {
-    props: ['tasks'],
+    props:{
+        task: Object,
+    },
 
     templete:
     `<div class="flex justify-center grid-cols-3 font-mono ">
@@ -19,4 +21,10 @@ app.component('task-list', {
         <div v-else>
             <h2 class="px-12 py-8 text-2xl font-mono text-gray-800 bg-white rounded-lg">No Photos.</h2>
         </div>`,
+
+        methods: {
+            like(tag){
+                this.$emit("like", tag);
+            }
+        }
 })

@@ -24,7 +24,7 @@ const app = Vue.createApp({
                 }
             ],
             text: '',
-            isHidden: false,
+            hidden: false,
             exit: false,
             imgExit: '',
 

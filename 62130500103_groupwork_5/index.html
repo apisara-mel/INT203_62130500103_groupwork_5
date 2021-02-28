@@ -14,21 +14,31 @@
     <!-- Using Tailwind via CDN -->
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
 
-    <link href="styles.css" rel="stylesheet">
+    <!-- <link href="styles.css" rel="stylesheet"> -->
 
     <!-- https://v3.vuejs.org/guide/installation.html#release-notes -->
     <!-- Vue CDN -->
     <script src="https://unpkg.com/vue@next"></script>
 
+    <script rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script rel="stylesheet" src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 </head>
 
 <body class="bg-yellow-200" id="app">
+    <div>
+        <div class="text-center my-8">
+            <h1 class="text-3xl">Photo Gallery ( {{ countUndone }} )</h1>
+            <search-img hidden="hidden"></search-img>
+        </div>
 
-    <div class="text-center my-8">
-        <h1 class="text-3xl">Photo Gallery ( {{ countUndone }} )</h1>
-    </div>
+        <div v-if="searching !== 0" v-for="(img, index) in searching">
+            <task-list :tasks="tasks" @toggle-done="toggleDone" @like-done="like"></task-list>
+        </div>
 
-    <!-- <div class="flex justify-center w-full mb-8">
+        <!-- <div class="flex justify-center w-full mb-8">
         <div v-if="isHidden == false">
             <button v-on:click="isHidden = !isHidden" :class="{show: isHidden == false}">
                 <span class="material-icons p-1 rounded-sm ">
@@ -46,7 +56,7 @@
         </div>
     </div> -->
 
-    <!-- <div class="flex justify-center grid-cols-3 font-mono ">
+        <!-- <div class="flex justify-center grid-cols-3 font-mono ">
         <div v-if="searching.length !== 0" v-for="(task,index) in searching" :class="{done: task.done}" :key="task.tag">
             <img :src="task.img"
                 class="w-52 h-64 rounded-lg mx-20 hover:scale-110 delay-150 motion-reduce:transform-none transform"
@@ -64,28 +74,27 @@
             <h2 class="px-12 py-8 text-2xl font-mono text-gray-800 bg-white rounded-lg">No Photos.</h2>
         </div> -->
 
-    <!-- popup -->
-    <div v-if="exit" class="mt-10 fixed w-screen">
-        <div class="bg-blue-200 bg-opacity-95 px-20 flex-row">
-            <div class="flex justify-center">
-                <img class="h-96 m-8 border-4 border-red-900 rounded-lg object-scale-down" :src="imgExit">
-            </div>
-            <div class="flex justify-center">
-                <div class="">
-                    <button @click="exitPopup" class="hover:bg-red-600 bg-red-500 mb-8 text-white rounded px-2">
-                        Close
-                    </button>
+        <!-- popup -->
+        <div v-if="exit" class="mt-10 fixed w-screen">
+            <div class="bg-blue-200 bg-opacity-95 px-20 flex-row">
+                <div class="flex justify-center">
+                    <img class="h-96 m-8 border-4 border-red-900 rounded-lg object-scale-down" :src="imgExit">
+                </div>
+                <div class="flex justify-center">
+                    <div class="">
+                        <button @click="exitPopup" class="hover:bg-red-600 bg-red-500 mb-8 text-white rounded px-2">
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
+
         </div>
-
-    </div>
     </div>
 
 
-    <search-img searching></search-img>
-    <task-list :tasks="tasks" @toggle-done="toggleDone" @like-done="like"></task-list>
 
+    
     <script src="main.js"></script>
     <script src="components/PhotoItem.js"></script>
     <script src="components/PhotoSearch.js"></script>
