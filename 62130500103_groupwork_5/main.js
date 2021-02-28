@@ -70,7 +70,6 @@ const app = Vue.createApp({
 
         searching() {
             return this.tasks.filter((showResult) => {
-                console.log(showResult.content.toLowerCase().includes(this.search.text.toLowerCase()))
                 return showResult.content.toLowerCase().includes(this.search.text.toLowerCase())
             })
         }
