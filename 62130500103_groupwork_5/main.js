@@ -23,11 +23,17 @@ const app = Vue.createApp({
                     show: false
                 }
             ],
-            text: '',
-            hidden: false,
-            exit: false,
-            imgExit: '',
+            search : {
+                text: '',
+                hidden: false, 
+            },
+           
+            modal : {
+               exit: false,
+               imgExit: '',
+            }
 
+        
         }
     },
 
@@ -36,14 +42,14 @@ const app = Vue.createApp({
             for (let index = 0; index <= this.tasks.length; index++) {
                 const element = this.tasks[index];
                 if (element.tag == tag) {
-                    this.imgExit = element.img
-                    this.exit = !this.exit;
+                    this.modal.imgExit = element.img
+                    this.modal.exit = !this.modal.exit;
                     break
                 }
             }
         },
         exitPopup(tag) {
-            this.exit = !this.exit;
+            this.modal.exit = !this.modal.exit;
         },
 
         like(tag) {
@@ -51,7 +57,6 @@ const app = Vue.createApp({
                 const element = this.tasks[index];
                 if (element.tag == tag) {
                     element.done = !element.done;
-
                     break
                 }
             }
@@ -65,9 +70,8 @@ const app = Vue.createApp({
 
         searching() {
             return this.tasks.filter(showResult => {
-                return showResult.content.toLowerCase().includes(this.text.toLowerCase())
+                return showResult.content.toLowerCase().includes(this.search.text.toLowerCase())
             })
-
         }
     }
 })

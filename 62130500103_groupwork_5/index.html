@@ -21,24 +21,46 @@
     <script src="https://unpkg.com/vue@next"></script>
 
     <script rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script rel="stylesheet" src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-    </script>
+    <s rel="stylesheet" src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+    </s>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 </head>
 
-<body class="bg-yellow-200" id="app">
-    <div>
-        <div class="text-center my-8">
-            <h1 class="text-3xl">Photo Gallery ( {{ countUndone }} )</h1>
-            <search-img hidden="hidden"></search-img>
-        </div>
+<body class="bg-yellow-200" >
 
+<div id="app">
+    <div class="text-center my-8">
+        <h1 class="text-3xl">Photo Gallery ( {{ countUndone }} )</h1>
+        <search-img :search="search"></search-img>
+    </div>
+
+    <div class="flex justify-center grid-cols-3 font-mono ">
         <div v-if="searching !== 0" v-for="(img, index) in searching">
-            <task-list :tasks="tasks" @toggle-done="toggleDone" @like-done="like"></task-list>
+            <task-list :task="img" @when-toggle="toggleDone" @like-done="like"></task-list>
         </div>
+        <div v-else>
+            <h2 class="px-12 py-8 text-2xl font-mono text-gray-800 bg-white rounded-lg">No Photos.</h2>
+        </div>
+        <photo-view :modal="modal" @exit-popup="exitPopup"></photo-view>
+    </div>
+</div>
 
-        <!-- <div class="flex justify-center w-full mb-8">
+
+    <script src="main.js"></script>
+    <script src="components/PhotoItem.js"></script>
+    <script src="components/PhotoSearch.js"></script>
+    <script src="components/PhotoView.js"></script>
+
+    <script>
+        const mountedApp = app.mount('#app')
+    </script>
+</body>
+
+</html>
+
+
+    <!-- <div class="flex justify-center w-full mb-8">
         <div v-if="isHidden == false">
             <button v-on:click="isHidden = !isHidden" :class="{show: isHidden == false}">
                 <span class="material-icons p-1 rounded-sm ">
@@ -51,58 +73,45 @@
             <input
                 class="ml-2 p-1 w-80 placeholder-gray-500 placeholder-opacity-50 focus:outline-none text-black rounded"
                 type="text" placeholder="Please enter text for searching photos" v-model="text">
-            <button class="ml-2 p-1 rounded-lg focus:outline-none bg-green-500" v-on:click="isHidden = !isHidden">Cancel
+            <button class="ml-2 p-1 rounded-lg focus:outline-none bg-green-500" v-on:click="isHidden = !isHidden">
+                Cancel
             </button>
         </div>
     </div> -->
 
-        <!-- <div class="flex justify-center grid-cols-3 font-mono ">
-        <div v-if="searching.length !== 0" v-for="(task,index) in searching" :class="{done: task.done}" :key="task.tag">
-            <img :src="task.img"
-                class="w-52 h-64 rounded-lg mx-20 hover:scale-110 delay-150 motion-reduce:transform-none transform"
-                @click="toggleDone(task.tag)">
-            <p class="my-4 text-center text-xl text-blue-600">{{ task.content }}</p>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mt-2 mb-8 mx-20"
-                @click="like(task.tag)">
-                Like
-            </button>
-            <span class="material-icons ml-12 text-blue-700 align-middle" v-show="task.done">
-                thumb_up
-            </span>
-        </div>
-        <div v-else>
-            <h2 class="px-12 py-8 text-2xl font-mono text-gray-800 bg-white rounded-lg">No Photos.</h2>
-        </div> -->
-
-        <!-- popup -->
-        <div v-if="exit" class="mt-10 fixed w-screen">
-            <div class="bg-blue-200 bg-opacity-95 px-20 flex-row">
-                <div class="flex justify-center">
-                    <img class="h-96 m-8 border-4 border-red-900 rounded-lg object-scale-down" :src="imgExit">
-                </div>
-                <div class="flex justify-center">
-                    <div class="">
-                        <button @click="exitPopup" class="hover:bg-red-600 bg-red-500 mb-8 text-white rounded px-2">
-                            Close
-                        </button>
-                    </div>
-                </div>
+    <!-- <div class="flex justify-center grid-cols-3 font-mono ">
+            <div v-if="searching.length !== 0" v-for="(task,index) in searching" :class="{done: task.done}"
+                :key="task.tag">
+                <img :src="task.img"
+                    class="w-52 h-64 rounded-lg mx-20 hover:scale-110 delay-150 motion-reduce:transform-none transform"
+                    @click="toggleDone(task.tag)">
+                <p class="my-4 text-center text-xl text-blue-600">{{ task.content }}</p>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mt-2 mb-8 mx-20"
+                    @click="like(task.tag)">
+                    Like
+                </button>
+                <span class="material-icons ml-12 text-blue-700 align-middle" v-show="task.done">
+                    thumb_up
+                </span>
+            </div>
+            <div v-else>
+                <h2 class="px-12 py-8 text-2xl font-mono text-gray-800 bg-white rounded-lg">No Photos.</h2>
             </div>
 
-        </div>
-    </div>
+            
+            <div v-if="exit" class="mt-10 fixed w-screen">
+                <div class="bg-blue-200 bg-opacity-95 px-20 flex-row">
+                    <div class="flex justify-center">
+                        <img class="h-96 m-8 border-4 border-red-900 rounded-lg object-scale-down" :src="imgExit">
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="">
+                            <button @click="exitPopup" class="hover:bg-red-600 bg-red-500 mb-8 text-white rounded px-2">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-
-
-    
-    <script src="main.js"></script>
-    <script src="components/PhotoItem.js"></script>
-    <script src="components/PhotoSearch.js"></script>
-    <script src="components/PhotoView.js"></script>
-
-    <script>
-        const mountedApp = app.mount('#app')
-    </script>
-</body>
-
-</html>
+            </div>
+        </div> -->
