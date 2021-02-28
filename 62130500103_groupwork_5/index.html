@@ -35,14 +35,14 @@
         <search-img :search="search"></search-img>
     </div>
 
-    <div class="flex justify-center grid-cols-3 font-mono ">
-        <div v-if="searching !== 0" v-for="(img, index) in searching">
+    <div v-if="searching != false" class="flex justify-center grid-cols-3 font-mono ">
+        <div  v-for="(img, index) in searching">
             <task-list :task="img" @when-toggle="toggleDone" @like-done="like"></task-list>
         </div>
-        <div v-else>
-            <h2 class="px-12 py-8 text-2xl font-mono text-gray-800 bg-white rounded-lg">No Photos.</h2>
-        </div>
         <photo-view :modal="modal" @exit-popup="exitPopup"></photo-view>
+    </div>
+    <div v-else>
+        <h2 class="px-12 py-8 text-2xl font-mono text-gray-800 bg-white rounded-lg mx-5 text-center">No Photos.</h2>
     </div>
 </div>
 
